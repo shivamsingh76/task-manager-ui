@@ -11,20 +11,20 @@ import { CommonModule } from '@angular/common';
   templateUrl: './login.html'
 })
 export class Login {
-  email = '';
+  username = '';
   password = '';
   errorMessage = '';
 
   constructor(private authService: AuthService, private router: Router) {}
 
   onLogin() {
-    this.authService.login(this.email, this.password).subscribe({
+    this.authService.login(this.username, this.password).subscribe({
       next: (response) => {
-        this.authService.saveToken(response.token);
+        this.authService.saveToken(response.data.jwt);
         this.router.navigate(['/tasks']);
       },
       error: (err) => {
-        this.errorMessage = 'Invalid email or password';
+        this.errorMessage = 'Invalid username or password';
       }
     });
   }
