@@ -13,8 +13,8 @@ export class AuthService {
     return this.http.post(`${this.baseUrl}/signin`, { username, password });
   }
 
-  register(email: string, password: string): Observable<any> {
-    return this.http.post(`${this.baseUrl}/signup`, { email, password });
+  register(username: string, password: string): Observable<any> {
+    return this.http.post(`${this.baseUrl}/signup`, { username, password });
   }
 
   saveToken(token: string): void {
