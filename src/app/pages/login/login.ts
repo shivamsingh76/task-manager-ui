@@ -20,7 +20,7 @@ export class Login {
   onLogin() {
     this.authService.login(this.username, this.password).subscribe({
       next: (response) => {
-        this.authService.saveToken(response.data.jwt);
+        this.authService.saveUserData(response.data);
         this.router.navigate(['/tasks']);
       },
       error: (err) => {

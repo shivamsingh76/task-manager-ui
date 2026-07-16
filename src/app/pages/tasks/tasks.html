@@ -1,1 +1,61 @@
-<p>tasks works!</p>
+<div class="glass-card">
+
+  <div class="topbar">
+    <div class="app-title">My Tasks</div>
+    <button class="logout-btn" (click)="logout()">Logout</button>
+  </div>
+
+  <div class="add-box">
+    <input [(ngModel)]="newTaskDescription"
+           placeholder="Add a task…"
+           (keyup.enter)="createTask()" />
+    <button class="add-circle" (click)="createTask()">+</button>
+  </div>
+
+  @if (pendingTasks().length > 0) {
+    <div class="section-label">Pending</div>
+    <div class="task-list">
+      @for (task of pendingTasks(); track task.id) {
+        <div class="task-row" (click)="toggleComplete(task)">
+          <div class="check-circle"></div>
+          @if (editingTask?.id !== task.id) {
+            <span class="task-label">{{ task.description }}</span>
+            <div class="row-actions">
+              <button class="icon-btn" title="Edit"
+                (click)="startEdit(task); $event.stopPropagation()">✏</button>
+              <button class="icon-btn" title="Delete"
+                (click)="deleteTask(task.id); $event.stopPropagation()">🗑</button>
+            </div>
+          }
+          @if (editingTask?.id === task.id) {
+            <input class="add-box" style="flex:1; padding: 4px 8px;"
+              [(ngModel)]="editingTask.description"
+              (click)="$event.stopPropagation()" />
+            <div class="row-actions" style="display:flex">
+              <button class="icon-btn"
+                (click)="saveEdit(); $event.stopPropagation()">✓</button>
+            </div>
+          }
+        </div>
+      }
+    </div>
+  }
+
+  @if (completedTasks().length > 0) {
+    <div class="divider"></div>
+    <div class="completed-label">{{ completedTasks().length }} completed</div>
+    <div class="task-list">
+      @for (task of completedTasks(); track task.id) {
+        <div class="task-row" (click)="toggleComplete(task)">
+          <div class="check-circle done">✓</div>
+          <span class="task-label done">{{ task.description }}</span>
+          <div class="row-actions">
+            <button class="icon-btn" title="Delete"
+              (click)="deleteTask(task.id); $event.stopPropagation()">🗑</button>
+          </div>
+        </div>
+      }
+    </div>
+  }
+
+</div>

@@ -1,8 +1,25 @@
-<div>
-  <h2>Login</h2>
-  <input [(ngModel)]="username" type="text" placeholder="Username" />
-  <input [(ngModel)]="password" type="password" placeholder="Password" />
-  <button (click)="onLogin()">Login</button>
-  <p *ngIf="errorMessage">{{ errorMessage }}</p>
-  <p>Don't have an account? <a routerLink="/register">Register</a></p>
+<div class="auth-card">
+  <div class="auth-title">Welcome back</div>
+
+  <div class="auth-field">
+    <input class="auth-input" [(ngModel)]="username"
+           type="text" placeholder="Username"
+           (keyup.enter)="onLogin()" />
+  </div>
+
+  <div class="auth-field">
+    <input class="auth-input" [(ngModel)]="password"
+           type="password" placeholder="Password"
+           (keyup.enter)="onLogin()" />
+  </div>
+
+  <button class="auth-btn" (click)="onLogin()">Login</button>
+
+  @if (errorMessage) {
+    <div class="auth-error">{{ errorMessage }}</div>
+  }
+
+  <div class="auth-link">
+    Don't have an account? <a routerLink="/register">Register</a>
+  </div>
 </div>

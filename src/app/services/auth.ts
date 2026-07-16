@@ -4,7 +4,6 @@ import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-
   private baseUrl = 'http://localhost:8080/api/v1/users';
 
   constructor(private http: HttpClient) {}
@@ -17,19 +16,32 @@ export class AuthService {
     return this.http.post(`${this.baseUrl}/signup`, { username, password });
   }
 
-  saveToken(token: string): void {
-    localStorage.setItem('token', token);
+  saveUserData(data: any): void {
+    localStorage.setItem('userData', JSON.stringify(data));
+  }
+
+  getUserData(): any {
+    const data = localStorage.getItem('userData');
+    return data ? JSON.parse(data) : null;
   }
 
   getToken(): string | null {
-    return localStorage.getItem('token');
+    return this.getUserData()?.jwt ?? null;
+  }
+
+  getUserId(): string | null {
+    return this.getUserData()?.userId ?? null;
+  }
+
+  getUsername(): string | null {
+    return this.getUserData()?.username ?? null;
   }
 
   logout(): void {
-    localStorage.removeItem('token');
+    localStorage.removeItem('userData');
   }
 
   isLoggedIn(): boolean {
-    return !!this.getToken();
+    return !!this.getUserData();
   }
 }
